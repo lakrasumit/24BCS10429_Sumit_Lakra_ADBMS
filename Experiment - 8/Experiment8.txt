@@ -1,0 +1,34 @@
+CREATE OR REPLACE PROCEDURE update_salary_proc(
+    IN p_emp_id INT,
+    INOUT p_salary NUMERIC,
+    OUT p_status VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM employees
+        WHERE employee_id = p_emp_id
+    ) THEN
+
+        UPDATE employees
+        SET salary = salary + p_salary
+        WHERE employee_id = p_emp_id;
+
+        SELECT salary
+        INTO p_salary
+        FROM employees
+        WHERE employee_id = p_emp_id;
+
+        p_status := 'Success';
+
+    ELSE
+
+        p_status := 'Employee Not Found';
+
+        RAISE EXCEPTION 'Employee Not Found';
+
+    END IF;
+END;
+$$;
