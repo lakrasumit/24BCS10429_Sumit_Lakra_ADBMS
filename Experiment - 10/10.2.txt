@@ -1,0 +1,6 @@
+Experiment : 10.2
+Write a query to do the following
+Find the dishes which cost more than the average cost of all the dishes at the restaurant
+You need to output f_name, f_cost, f_type for such dishes
+Code:
+select f_name , f_cost,f_type from food where f_cost>(select avg(f_cost) from food);
